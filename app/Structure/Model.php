@@ -1,6 +1,12 @@
 <?php
+namespace App\Structure;
 
  class Model {
+
+     protected $table;
+
+
+     protected $fillables;
 
      function __construct()
      {
@@ -20,7 +26,7 @@
 
      public static function create()
      {
-
+        return "Creando...";
      }
 
 
