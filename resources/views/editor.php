@@ -1,5 +1,5 @@
 <?php
-    use App\Models\Document;
+    include(dirname(__FILE__). '/../../app/Models/Document.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,7 +33,11 @@
 					<textarea id="title" onblur="" placeholder="Escribe tu titulo del documento aqui"></textarea>
 				</div>
 				<div  class="text-body">
-					<textarea placeholder="haz click para agregar texto" id="areadetexto" class=""></textarea>
+					<textarea placeholder="haz click para agregar texto" id="areadetexto" class="">
+                        <?php
+                        echo Document::create();
+                        ?>
+                    </textarea>
 				</div>
 			</div>	
 		</div>

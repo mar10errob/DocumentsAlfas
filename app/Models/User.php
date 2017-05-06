@@ -1,5 +1,4 @@
 <?php
-use App\Structure\Model;
 
 class User extends Model
 {
@@ -12,4 +11,8 @@ class User extends Model
         'password',
 
     ];
+
+    function __construct()
+    {
+    }
 }

@@ -1,16 +1,20 @@
 <?php
-namespace App\Structure;
 
- class Model {
+include(dirname(__FILE__). '/../Database/Connection.php');
+include(dirname(__FILE__). '/../Database/Settings.php');
+
+
+ abstract class Model {
 
      protected $table;
 
-
      protected $fillables;
 
-     function __construct()
-     {
 
+     public function __construct()
+     {
+         $settings = new Settings();
+         $connection = new Connection($settings->get());
      }
 
      public static function all()

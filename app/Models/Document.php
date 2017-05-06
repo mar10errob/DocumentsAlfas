@@ -1,7 +1,6 @@
 <?php
-namespace App\Models;
 
-use App\Structure\Model;
+include(dirname(__FILE__). '/../Structure/Model.php');
 
 class Document extends Model
 {
@@ -12,4 +11,8 @@ class Document extends Model
         'title',
         'description',
     ];
+
+    function __construct($connection)
+    {
+    }
 }
