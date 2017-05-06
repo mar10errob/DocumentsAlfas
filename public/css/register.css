@@ -1,0 +1,91 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Century Gothic', sans-serif;
+}
+
+.image-background img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.title {
+    position: absolute;
+    left: 10%;
+    top: 250px;
+    color: white;
+    width: 21%;
+    height: 100px;
+    font-size: 75px;
+}
+
+.title h1 {
+    position: absolute;
+    font-size:80px;
+}
+
+.title h2 {
+    position: absolute;
+    font-size: 80px;
+    left: 71%;
+    color: #115b82;
+}
+
+
+.container {
+    text-align: center;
+    position: relative;
+    left: 65%;
+    top: 100px;
+    width: 20%;
+    height:450px;
+    float: left;
+}
+.container input::-webkit-input-placeholder {
+    color:white;
+}
+
+.container input {
+    outline: none;
+    color: white;
+    top: 40px;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #27c6db;
+    margin-bottom: 17px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    background: rgba(256,256,256,.4);
+}
+
+.container input[type="submit"] {
+    top:70px;
+    left: 20%;
+    width: 63%;
+    background-color: white;
+    color: #fa7763;
+    font-size: 18px;
+    border: 1px solid #fa7763;
+    border-bottom: 3px solid #fa7763;
+    cursor: pointer;
+}
+
+.container input[type="number"] {
+    width: 20%;
+    height: 10px;
+}
+
+.log {
+    text-align: center;
+}
+
+.log p {
+    position: relative;
+    color: white;
+}
+.log a {
+    cursor: pointer;
+    text-decoration: none;
+    color: #fec254;
+}
