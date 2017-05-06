@@ -12,7 +12,4 @@ class Document extends Model
         'description',
     ];
 
-    function __construct($connection)
-    {
-    }
 }

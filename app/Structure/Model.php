@@ -6,48 +6,65 @@ include(dirname(__FILE__). '/../Database/Settings.php');
 
  abstract class Model {
 
+     /**
+      * @var $table
+      */
      protected $table;
 
+
+     /**
+      * @var $fillables
+      */
      protected $fillables;
+
 
 
      public function __construct()
      {
-         $settings = new Settings();
-         $connection = new Connection($settings->get());
-     }
-
-     public static function all()
-     {
 
      }
 
-     public static function shared()
+
+     public function all()
      {
 
      }
 
 
-     public static function create()
-     {
-        return "Creando...";
-     }
-
-
-     public static function findById()
+     public function shared()
      {
 
      }
 
 
-     public static function updateById()
+     public function create()
      {
 
      }
 
 
-     public static function deleteById()
+     public function findById()
      {
 
+     }
+
+
+     public function updateById()
+     {
+
+     }
+
+
+     public function deleteById()
+     {
+
+     }
+
+     public function getTable() {
+         return $this->table;
+     }
+
+     public function getFillabels() {
+         return $this->fillables;
      }
  }

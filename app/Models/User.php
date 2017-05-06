@@ -11,8 +11,4 @@ class User extends Model
         'password',
 
     ];
-
-    function __construct()
-    {
-    }
 }

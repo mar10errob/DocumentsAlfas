@@ -33,11 +33,7 @@
 					<textarea id="title" onblur="" placeholder="Escribe tu titulo del documento aqui"></textarea>
 				</div>
 				<div  class="text-body">
-					<textarea placeholder="haz click para agregar texto" id="areadetexto" class="">
-                        <?php
-                        echo Document::create();
-                        ?>
-                    </textarea>
+					<textarea placeholder="haz click para agregar texto" id="areadetexto" class=""></textarea>
 				</div>
 			</div>	
 		</div>

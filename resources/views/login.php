@@ -21,7 +21,7 @@
         <div class="container" id="inputs">
             <input type="text" name="user" placeholder="usuario" id="user" onblur="validate('user');">
             <input type="password" name="password" placeholder="password" id="password" onblur="validate('password');">
-            <input type="submit" value="Iniciar Sesión" onclick="login();">
+            <input type="submit" value="Iniciar Sesión">
             <p>¿Eres nuevo?<a href="register.php"> Regístrate</a></p>
         </div>
     </div>

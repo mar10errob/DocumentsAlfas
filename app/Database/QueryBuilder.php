@@ -1,5 +1,8 @@
 <?php
 
-abstract class QueryBuilder {
+class QueryBuilder {
+
+    public function __construct($attributes) {}
+
 
 }
