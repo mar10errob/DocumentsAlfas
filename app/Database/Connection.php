@@ -1,11 +1,16 @@
 <?php
 
+require_once(dirname(__FILE__). '/../Database/Settings.php');
+
 class Connection {
 
     private $connection;
 
-    function __construct($settings) {
-        $this->connection = new mysqli($settings[0], $settings[1], $settings[2], $settings[3]);
+    function __construct(Settings $settings) {
+
+        $settings = $settings->get();
+
+        $this->connection = new mysqli($settings[0], $settings[1], $settings[2], $settings[3], $settings[4]);
     }
 
     public function get() {

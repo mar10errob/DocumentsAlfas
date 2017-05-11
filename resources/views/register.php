@@ -14,8 +14,8 @@
         <h2>tro</h2>
     </div>
  	<div class="container">
-        <form action="" method="post">
-            <input type="text" name="name" id="name"  pattern="[A-Za-z]" placeholder="Nombre Completo"">
+        <form action="../../app/Contorllers/RegisterController.php" method="post">
+            <input type="text" name="name" id="name" placeholder="Nombre Completo"">
             <input type="text" name="user" id="user" placeholder=" Usuario" onblur="validate('user');">
             <input type="email" name="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" placeholder="Correo Electronico">
             <input type="password" name="password" id="password" placeholder="Contraseña">

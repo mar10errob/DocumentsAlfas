@@ -6,12 +6,14 @@ class Settings {
     private $password;
     private $host;
     private $database;
+    private $port;
 
-    public function __construct($database = 'documentsdb', $user = 'root', $password = '', $host = '127.0.0.1') {
+    public function __construct($database = 'documentsdb', $user = 'root', $password = '', $host = '127.0.0.1', $port = '3307') {
         $this->database = $database;
         $this->user = $user;
         $this->password = $password;
         $this->host = $host;
+        $this->port = $port;
     }
 
     public function get() {
@@ -19,7 +21,8 @@ class Settings {
             $this->host,
             $this->user,
             $this->password,
-            $this->database
+            $this->database,
+            $this->port
         ];
     }
 }
