@@ -37,11 +37,11 @@ abstract class Model {
      public function all() {
 
         $queryBuild = new QueryBuilder(
-            $this->database, $this->table, $this->fillabels, [], 'SELECT', []
+            $this->database, $this->table, $this->fillabels, 'SELECT'
         );
 
         $data = $this->connection->query(
-            $queryBuild->generate()->getQuery()
+            $queryBuild->generate()->where(['id', 'name'], [4, 'Meme'])->getQuery()
         );
 
         return $data->fetch_all();
@@ -49,6 +49,7 @@ abstract class Model {
 
 
      public function create() {
+
          $queryBuild = new QueryBuilder(
              $this->database, $this->table, $this->fillabels, [], 'SELECT', []
          );

@@ -15,21 +15,18 @@ class QueryBuilder
     private const VALUES = 'VALUES';
     private const FROM = ' FROM ';
 
-    private $data;
     private $table;
-    private $query;
     private $method;
     private $database;
     private $fillabels;
-    private $conditions;
 
-    public function __construct($database = 'documentsdb', $table = 'tablename', $fillabels = [], $data = [], $method = null, $conditions = []) {
-        $this->conditions = $conditions;
+    private $query;
+
+    public function __construct($database = 'documentsdb', $table = 'tablename', $fillabels = [], $method = null) {
         $this->fillabels = $fillabels;
         $this->database = $database;
         $this->method = strtoupper($method);
         $this->table = $table;
-        $this->data = $data;
     }
 
     private function iterable($array = []) {
@@ -78,11 +75,9 @@ class QueryBuilder
 
         $queryResult .= self::FROM . $this->database .'.'.$this->table;
 
-        if (count($this->conditions) > 0) {
-            $queryResult .= 'SI HAY SELECTORES';
-        }
-
         $this->query = $queryResult;
+
+        return $this;
     }
 
     private function insert() {}
@@ -99,6 +94,33 @@ class QueryBuilder
 
     public function getQuery() {
         return $this->query;
+    }
+
+    private function setQuotes($key) {
+        return "'" . $key . "'";
+    }
+
+    public function where($keys = [], $values = []) {
+
+        if (count($keys) != count($values)) {
+            return $this;
+        }
+
+        $keys = self::iterable($keys);
+
+        $query = $this->query . self::WHERE;
+
+        foreach ($keys as $index => $key) {
+            $query .= $key . ' = ' . self::setQuotes($values[$index]);
+
+            if ($keys->hasNext()) {
+                $query .= self::AND;
+            }
+        }
+
+        $this->query = $query;
+
+        return $this;
     }
 
 
