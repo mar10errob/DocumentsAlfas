@@ -8,10 +8,10 @@ class Document extends Model
 
     protected $fillabels = [
         'id',
-        'user_id',
-        'nameDocument',
+        'name',
         'title',
-        'description',
+        'body',
+        'user_id',
     ];
 
 }

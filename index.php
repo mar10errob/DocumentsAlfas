@@ -8,17 +8,25 @@ $user = new User();
 $document = new Document();
 
 /**
- * NO EJECUTA CORRECTAMENTE POR LOS ESPACIOS EN BLANCO
 */
 
+echo $user->create([
+    'Marco',
+    'Athinor',
+    'marco@bluebeanmx.com',
+    password_hash('athinor.1993',PASSWORD_DEFAULT)
+]);
+echo '<br>';
 
-foreach ($user->all() as $user) {
-    foreach ($user as $item) {
-        echo $item;
-        echo '<br>';
-    }
-    echo '<br>';
-}
+echo $document->create([
+    'Marco',
+    'Athinor',
+    'La super wea super mega boladora',
+    4
+]);
+
+return;
+
 
 /*if (! empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
     $uri = 'https://';

@@ -12,16 +12,46 @@ class QueryBuilder
     private const AND = ' AND ';
     private const INTO = ' INTO ';
     private const WHERE = ' WHERE ';
-    private const VALUES = 'VALUES';
+    private const VALUES = ' VALUES ';
     private const FROM = ' FROM ';
 
+    /**
+     * @var string
+     */
     private $table;
+
+
+    /**
+     * @var string
+     */
     private $method;
+
+
+    /**
+     * @var string
+     */
     private $database;
+
+
+    /**
+     * @var array
+     */
     private $fillabels;
 
+
+    /**
+     * @var
+     */
     private $query;
 
+
+    /**
+     * QueryBuilder constructor.
+     * @param string $database
+     * @param string $table
+     * @param array $fillabels
+     * @param null $method
+     */
     public function __construct($database = 'documentsdb', $table = 'tablename', $fillabels = [], $method = null) {
         $this->fillabels = $fillabels;
         $this->database = $database;
@@ -29,17 +59,39 @@ class QueryBuilder
         $this->table = $table;
     }
 
-    private function iterable($array = []) {
 
+    /**
+     * @param array $array
+     * @return CachingIterator
+     */
+    private function iterable($array = []) {
         return new CachingIterator(
             new ArrayIterator($array)
         );
     }
 
+
+    /**
+     * @param $name
+     * @return mixed
+     */
     private function originalMethod($name) {
         return str_replace(' ', '', $name);
     }
 
+
+    /**
+     * @param $key
+     * @return string
+     */
+    private function setQuotes($key) {
+        return "'" . $key . "'";
+    }
+
+
+    /**
+     * @return null
+     */
     private function callMethod() {
         switch ($this->method) {
             case self::originalMethod(self::SELECT):
@@ -60,8 +112,20 @@ class QueryBuilder
         }
     }
 
-    private function select() {
-        $fillabels = self::iterable($this->fillabels);
+
+    /**
+     * @param null $fillabels
+     * @return $this
+     */
+    public function select($fillabels = null) {
+
+        $_fillabesl = $this->fillabels;
+
+        if ($fillabels) {
+            $_fillabesl = $fillabels;
+        }
+
+        $fillabels = self::iterable($_fillabesl);
 
         $queryResult = self::SELECT;
 
@@ -80,26 +144,64 @@ class QueryBuilder
         return $this;
     }
 
-    private function insert() {}
 
-    private function update() {}
+    /**
+     * @param array $request
+     * @return $this
+     */
+    public function insert($request = []) {
 
-    private function delete() {}
+        if ((count($this->fillabels) - 1) != count($request)) {
+            $this->query = 'Error al generar el query';
 
-    public function generate() {
-        $this->callMethod();
+            return $this;
+        }
+
+        $queryResult = self::INSERT . self::INTO . $this->database . '.' . $this->table;
+
+        $fillabels = self::iterable($this->fillabels);
+        $request = self::iterable($request);
+
+        $queryResult .= ' (';
+
+        foreach ($fillabels as $fillabel) {
+            if ($fillabel != 'id') {
+                $queryResult .= $fillabel;
+            }
+
+            if ($fillabels->hasNext() && $fillabel !=  'id') {
+                $queryResult .= ', ';
+            }
+        }
+
+        $queryResult .=  ') ' . self::VALUES . ' (';
+
+
+        foreach ($request as $data) {
+            $queryResult .=  $data;
+
+            if ($request->hasNext()) {
+                $queryResult .= ', ';
+            }
+        }
+
+        $queryResult .= ')';
+
+        $this->query = $queryResult;
 
         return $this;
     }
 
-    public function getQuery() {
-        return $this->query;
-    }
+    public function update() {}
 
-    private function setQuotes($key) {
-        return "'" . $key . "'";
-    }
+    public function delete() {}
 
+
+    /**
+     * @param array $keys
+     * @param array $values
+     * @return $this
+     */
     public function where($keys = [], $values = []) {
 
         if (count($keys) != count($values)) {
@@ -107,7 +209,6 @@ class QueryBuilder
         }
 
         $keys = self::iterable($keys);
-
         $query = $this->query . self::WHERE;
 
         foreach ($keys as $index => $key) {
@@ -124,6 +225,22 @@ class QueryBuilder
     }
 
 
+    /**
+     * @return $this
+     */
+    public function generate() {
+        $this->callMethod();
+
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getQuery() {
+        return $this->query;
+    }
 
     /**
     SELECT `users`.`id`,`users`.`name`,`users`.`nickname`,`users`.`email`,`users`.`password`
