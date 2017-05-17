@@ -1,3 +1,15 @@
+<?php
+require_once(dirname(__FILE__). '/../../app/Contorllers/Http/Redirect.php');
+require_once(dirname(__FILE__). '/../../app/Contorllers/Http/Session.php');
+
+$redirect = new Redirect();
+$session = new Session();
+
+if ($session->exists('user')) {
+    $redirect->view('documents.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -19,9 +31,11 @@
         </div>
 
         <div class="container" id="inputs">
-            <input type="text" name="user" placeholder="usuario" id="user" onblur="validate('user');">
-            <input type="password" name="password" placeholder="password" id="password" onblur="validate('password');">
-            <input type="submit" value="Iniciar Sesión">
+            <form action="../../app/Contorllers/LoginController.php" method="POST">
+                <input type="text" name="email" placeholder="Correo electronico" id="user" onblur="">
+                <input type="password" name="password" placeholder="Password" id="password" onblur="validate('password');">
+                <input type="submit" value="Iniciar Sesión">
+            </form>
             <p>¿Eres nuevo?<a href="register.php"> Regístrate</a></p>
         </div>
     </div>

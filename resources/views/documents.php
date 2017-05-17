@@ -1,3 +1,15 @@
+<?php
+require_once(dirname(__FILE__). '/../../app/Contorllers/Http/Redirect.php');
+require_once(dirname(__FILE__). '/../../app/Contorllers/Http/Session.php');
+
+$redirect = new Redirect();
+$session = new Session();
+
+if (! $session->exists('user')) {
+    $redirect->view('login.php');
+}
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,7 +29,7 @@
 
         <div class="user">
             <h5>
-                Marco
+                <?php echo $session->get('user')['name'] ?>
             </h5>
         </div>
     </div>

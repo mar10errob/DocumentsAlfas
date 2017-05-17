@@ -52,7 +52,8 @@ class QueryBuilder
      * @param array $fillabels
      * @param null $method
      */
-    public function __construct($database = 'documentsdb', $table = 'tablename', $fillabels = [], $method = null) {
+    public function __construct($database = 'documentsdb', $table = 'tablename', $fillabels = [], $method = null)
+    {
         $this->fillabels = $fillabels;
         $this->database = $database;
         $this->method = strtoupper($method);
@@ -64,7 +65,8 @@ class QueryBuilder
      * @param array $array
      * @return CachingIterator
      */
-    private function iterable($array = []) {
+    private function iterable($array = [])
+    {
         return new CachingIterator(
             new ArrayIterator($array)
         );
@@ -75,7 +77,8 @@ class QueryBuilder
      * @param $name
      * @return mixed
      */
-    private function originalMethod($name) {
+    private function originalMethod($name)
+    {
         return str_replace(' ', '', $name);
     }
 
@@ -84,7 +87,8 @@ class QueryBuilder
      * @param $key
      * @return string
      */
-    private function setQuotes($key) {
+    private function setQuotes($key)
+    {
         return "'" . $key . "'";
     }
 
@@ -92,7 +96,8 @@ class QueryBuilder
     /**
      * @return null
      */
-    private function callMethod() {
+    private function callMethod()
+    {
         switch ($this->method) {
             case self::originalMethod(self::SELECT):
                 self::select();
@@ -117,8 +122,8 @@ class QueryBuilder
      * @param null $fillabels
      * @return $this
      */
-    public function select($fillabels = null) {
-
+    public function select($fillabels = null)
+    {
         $_fillabesl = $this->fillabels;
 
         if ($fillabels) {
@@ -149,10 +154,10 @@ class QueryBuilder
      * @param array $request
      * @return $this
      */
-    public function insert($request = []) {
-
+    public function insert($request = [])
+    {
         if ((count($this->fillabels) - 1) != count($request)) {
-            $this->query = 'Error al generar el query';
+            $this->query = count($request);
 
             return $this;
         }
@@ -178,7 +183,7 @@ class QueryBuilder
 
 
         foreach ($request as $data) {
-            $queryResult .=  $data;
+            $queryResult .=  self::setQuotes($data);
 
             if ($request->hasNext()) {
                 $queryResult .= ', ';
@@ -192,9 +197,20 @@ class QueryBuilder
         return $this;
     }
 
-    public function update() {}
+    public function update()
+    {
+    }
 
-    public function delete() {}
+
+
+    public function delete()
+    {
+        $query = $this->query . self::DELETE . self::FROM . $this->database . '.' . $this->table;
+
+        $this->query = $query;
+
+        return $this;
+    }
 
 
     /**
@@ -202,8 +218,8 @@ class QueryBuilder
      * @param array $values
      * @return $this
      */
-    public function where($keys = [], $values = []) {
-
+    public function where($keys = [], $values = [], $conditions = [])
+    {
         if (count($keys) != count($values)) {
             return $this;
         }
@@ -241,23 +257,5 @@ class QueryBuilder
     public function getQuery() {
         return $this->query;
     }
-
-    /**
-    SELECT `users`.`id`,`users`.`name`,`users`.`nickname`,`users`.`email`,`users`.`password`
-    FROM `documentsdb`.`users`;
-     *
-    INSERT INTO `documentsdb`.`users` (`id`,`name`,`nickname`,`email`,`password`)
-    VALUES (<{id: }> ,<{name: }> ,<{nickname: }> ,<{email: }> ,<{password: }>);
-     *
-    INSERT INTO `documentsdb`.`users` (`name`, `nickname`, `email`, `password`) VALUES ('Marco Antonio', 'athinor', 'g.antoniotoriz@hotmail.com', 'marco123');
-    UPDATE `documentsdb`.`users` SET `name`='Mar', `nickname`='Ant', `email`='g.antonriz@hotmail.com' WHERE `id`='1';
-     *
-    UPDATE `documentsdb`.`users`
-    SET `id` = <{id: }>,`name` = <{name: }>,`nickname` = <{nickname: }>,`email` = <{email: }>,`password` = <{password: }>
-    WHERE `id` = <{expr}> AND email = 'email';
-     *
-    DELETE FROM `documentsdb`.`users`
-    WHERE <{where_expression}>;
-     */
 
 }

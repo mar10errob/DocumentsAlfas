@@ -1,3 +1,15 @@
+<?php
+require_once(dirname(__FILE__). '/../../app/Contorllers/Http/Redirect.php');
+require_once(dirname(__FILE__). '/../../app/Contorllers/Http/Session.php');
+
+$redirect = new Redirect();
+$session = new Session();
+
+if ($session->exists('user')) {
+    $redirect->view('documents.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

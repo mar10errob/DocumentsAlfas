@@ -28,11 +28,14 @@ abstract class Model {
     private $queryBuild;
 
 
-
+    /**
+     * Model constructor.
+     */
     public function __construct()
     {
         $settings = new Settings();
-    // set database, hosto, user, password
+
+        // set database, hosto, user, password
         $this->connection = new Connection(
             $settings->setPort('3307')->setHost('localhost')
         );
@@ -41,6 +44,9 @@ abstract class Model {
     }
 
 
+    /**
+     * @return mixed
+     */
     public function all()
     {
         $queryBuild = new QueryBuilder(
@@ -48,23 +54,37 @@ abstract class Model {
         );
 
         $data = $this->connection->query(
-            $queryBuild->select(['id','nickname'])->where(['id', 'name'],[4,'Teemo'])->getQuery()
+            $queryBuild->select()->getQuery()
         );
 
         return $data->fetch_all();
     }
 
 
-    public function create($collection)
+    /**
+     * @param $collection
+     * @return mixed
+     */
+    public function create($data)
     {
         $query = new QueryBuilder(
             $this->database, $this->table, $this->fillabels
         );
 
-        return $query->insert($collection)->getQuery();
+        $data = $this->connection->query(
+            $query->insert($data)->getQuery()
+        );
+
+        return $data;
+
+        return true;
     }
 
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function findById($id)
     {
         $query = new QueryBuilder(
@@ -79,17 +99,32 @@ abstract class Model {
     }
 
 
+    /**
+     * @param $email
+     * @return mixed
+     */
     public function findByEmail($email)
     {
-        $queryBuild = new QueryBuilder(
+        $queryBuilder = new QueryBuilder(
             $this->database, $this->table, $this->fillabels
         );
 
         $data = $this->connection->query(
-            $queryBuild->select()->where(['email'],[$email])->getQuery()
+            $queryBuilder->select()->where(['email'],[$email])->getQuery()
         );
 
-        return $data->fetch_all();
+        return $this->compact(
+            $this->fillabels, $data->fetch_all()
+        );
+    }
+
+
+    /**
+     *
+     */
+    public function update()
+    {
+
     }
 
 
@@ -99,16 +134,59 @@ abstract class Model {
     }
 
 
-    public function deleteById()
+    /**
+     * @return mixed
+     */
+    public function delete()
     {
+        $queryBuilder = new QueryBuilder(
+            $this->database, $this->table, $this->fillabels
+        );
 
+        return $queryBuilder->delete()->getQuery();
     }
 
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function deleteById($id)
+    {
+        $queryBuilder = new QueryBuilder(
+            $this->database, $this->table, $this->fillabels
+        );
+
+        return $this->connection->query(
+            $queryBuilder->delete()->where(['id'],[$id])->getQuery()
+        ) ?: false;
+    }
+
+
+    public function compact($keys = [], $values = [])
+    {
+        $_array = [];
+
+        foreach ($keys as $index => $key) {
+            $_array[$key] = $values[0][$index];
+        }
+
+        return $_array;
+    }
+
+
+    /**
+     * @return mixed
+     */
     public function getTable()
     {
         return $this->table;
     }
 
+
+    /**
+     * @return mixed
+     */
     public function getFillabels()
     {
         return $this->fillables;
